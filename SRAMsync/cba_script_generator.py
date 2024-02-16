@@ -17,6 +17,10 @@ from SRAMsync.json_file import JsonFile
 from SRAMsync.sramlogger import logger
 from SRAMsync.sync_with_sram import ConfigValidationError
 
+import sys
+sys.path.append('/usr/lib/python3/dist-packages/sara_usertools')
+import usercommon
+import sara_ldap
 
 class CbaScriptGenerator(CuaScriptGenerator):
     """
@@ -52,6 +56,10 @@ class CbaScriptGenerator(CuaScriptGenerator):
             super().__init__(service, cua_config, state, path)
             self.cfg = cfg["event_handler_config"]
             self._cba_co_budget_mapping_filename = ""
+
+            users = sara_ldap.eua_accepted_by_users(self.cua_connector)
+            print(users)
+
         except ConfigValidationError as e:
             raise e
         except ValidationError as e:

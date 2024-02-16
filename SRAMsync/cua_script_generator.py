@@ -24,6 +24,15 @@ from SRAMsync.json_file import JsonFile
 from SRAMsync.sramlogger import logger
 from SRAMsync.sync_with_sram import ConfigValidationError
 
+import sys
+sys.path.append('/usr/lib/python3/dist-packages/sara_usertools')
+import usercommon
+import sara_ldap
+
+
+cua_con = common = usercommon.Common(cfg_file='/etc/sara_usertools/sara_usertools.cfg')
+#users = sara_ldap.eua_accepted_by_users(cua_con)
+#print(users)
 
 class CuaScriptGenerator(EventHandler):
     """
@@ -75,6 +84,8 @@ class CuaScriptGenerator(EventHandler):
             self.extra_groups_re = re.compile("^[ \t]*extra_groups[ \t]*=[ \t]*([a-zA-Z0-9_\\-, \t]*)[ \t]*$")
 
             self._generate_header()
+            self.cua_connector = cua_con
+
         except ConfigValidationError as e:
             raise e
         except ValidationError as e:
