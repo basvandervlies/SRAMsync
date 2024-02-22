@@ -86,6 +86,10 @@ class CuaScriptGenerator(EventHandler):
             self._generate_header()
             self.cua_connector = cua_con
 
+            users = sara_ldap.eua_accepted_by_users(self.cua_connector)
+            print(users)
+
+
         except ConfigValidationError as e:
             raise e
         except ValidationError as e:
